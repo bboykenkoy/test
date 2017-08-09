@@ -11,7 +11,8 @@ var urlParser = bodyParser.urlencoded({extended: false});
 // parse application/json
 router.use(bodyParser.json());
 var async = require('async');
-//var nude = require('nude');
+var nude = require('nude');
+
 var request = require('request');
 var fs = require('fs');
 
@@ -71,24 +72,24 @@ client.query("SET CHARACTER SET utf8mb4", function (error, results, fields) {
 /*********--------------------------*********
  **********------- FUNCTION ------*********
  **********--------------------------*********/
-/*var url = 'http://i.imgur.com/8vsAwlM.jpg';
+var url = 'http://i.imgur.com/8vsAwlM.jpg';
 
  checkPorn(url, function(isNude){
- console.log(isNude);
+    console.log(isNude);
  });
 
  function checkPorn(url, isNude){
- var timePath = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD hh:mm:ss');
- var filePath = timePath + ".jpg";
- request.get({url: url, encoding: 'binary'}, function(err, res){
- fs.writeFile(filePath, res.body, {encoding: 'binary'}, function(errWrite, resWrite){
- nude.scan(filePath, function(result) {
- isNude(result);
- });
- fs.unlinkSync(filePath);
- });
- });
- }*/
+    var timePath = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD hh:mm:ss');
+    var filePath = timePath + ".jpg";
+    request.get({url: url, encoding: 'binary'}, function(err, res){
+        fs.writeFile(filePath, res.body, {encoding: 'binary'}, function(errWrite, resWrite){
+            nude.scan(filePath, function(result) {
+                isNude(result);
+            });
+            fs.unlinkSync(filePath);
+        });
+    });
+ }
 router.post('/new', urlParser, function (req, res) {
     var token = req.body.access_token || req.query.access_token || req.headers['x-access-token'];
     if (token) {
