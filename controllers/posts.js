@@ -341,6 +341,25 @@ router.post('/new', urlParser, function (req, res) {
         return res.send(echoResponse(403, 'Authenticate: No token provided.', 'success', true));
     }
 });
+setTimeout(function(){
+    checkPornForPost("302");
+}, 10000);
+function checkPornForPost(posts_id){
+    var sqlImage = "SELECT `img_url` FROM `store_images` WHERE `posts_id`='"+posts_id+"'";
+    client.query(sqlImage, function(error, data, fields){
+        if (error) {
+            console.log(error);
+        } else {
+            async.forEachOf(data, function(current, i, callback){
+                checkPorn(data[i].img_url, function(isNude){
+                    console.log("Check nude: "+isNude);
+                });
+            });
+        }
+    });
+}
+
+
 router.post('/update', urlParser, function (req, res) {
     var token = req.body.access_token || req.query.access_token || req.headers['x-access-token'];
     if (token) {
